@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Game.Unity
 {
-	public class PlayerView : MonoBehaviour
+	public class PlayerView : EntityView
 	{
 		[SerializeField] private Animator _animator;
 
@@ -28,7 +28,7 @@ namespace Game.Unity
 			_ownTransform = transform;
 		}
 		
-		private void Update()
+		public override void Tick()
 		{
 			foreach (var playerEntity in _playerEntityFilter)
 			{

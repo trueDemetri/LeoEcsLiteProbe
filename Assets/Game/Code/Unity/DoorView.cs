@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Game.Unity
 {
-	public class DoorView : MonoBehaviour
+	public class DoorView : EntityView
 	{
 		public string Id => _doorId ??= Guid.NewGuid().ToString();
 		public Vector3 ActivatorPosition => _activationButtonTransform.position;
@@ -30,7 +30,7 @@ namespace Game.Unity
 		private Renderer[] _renderers;
 
 		[Inject]
-		private void Construct(EcsWorlds ecsWorlds)
+		public void Construct(EcsWorlds ecsWorlds)
 		{
 			var world = ecsWorlds.DefaultWorld;
 			_doorsPool = world.GetPool<DoorComponent>();
@@ -40,7 +40,7 @@ namespace Game.Unity
 			SetActivationStatus(false);
 		}
 
-		private void Update()
+		public override void Tick()
 		{
 			ShowEntity();
 		}
