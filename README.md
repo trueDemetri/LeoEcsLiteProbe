@@ -19,10 +19,10 @@ Game/Code/Systems
 
 В папке Components
 1) DoorComponent - для сущностей дверей.
-2) IsMovingComponent - флаг движения сущности.
-3) MoveComponent - при накидывании на сущность, имеющую позицию, заставляет ее двигаться в указанную точку.
-4) PlayerComponent - флаг игрока на сущности.
-5) PositionComponent - позиция.
+2) MoveComponent - при накидывании на сущность, имеющую позицию, заставляет ее двигаться в указанную точку.
+3) PlayerComponent - флаг игрока на сущности.
+4) PositionComponent - позиция.
+5) TimeComponent - счетчик времени.
 6) Папка Events_Requests (здесь тоже компоненты, но для событий): создание сущности двери и запрос движения игрока.
 
 В папке Systems
@@ -38,6 +38,7 @@ Game/Code/Systems
 В папке IntermediateSystems
 1) DoorsShowingSystem - через сервис связывает DoorView дверей на сцене с соответствующими сущностями для отображения.
 2) PlayerPointAndClickSystem - система отправляет запросы на движение игрока (PlayerMoveRequest) при кликах на сцене.
+3) TimeSystem - система времени из Unity API.
 
 В папке Unity
 1) CameraController - двигает камеру за игроком.
