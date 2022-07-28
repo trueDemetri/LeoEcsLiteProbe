@@ -38,6 +38,7 @@ namespace Game.Systems
 			foreach (var playerEntity in _playerEntities)
 			{
 				var playerPosition = _positionPool.Get(playerEntity).Position;
+				_timeFilter.GetSingleEntity(out var timeEntity);
 				foreach (var doorEntity in _buttonEntities)
 				{
 					ref var door = ref _doorsPool.Get(doorEntity);
@@ -46,14 +47,11 @@ namespace Game.Systems
 					{
 						continue;
 					}
-
-					foreach (var timeEntity in _timeFilter)
-					{
-						ref var timeComponent = ref _timePool.Get(timeEntity);
-						door.OpeningProgress = Mathf.Min(
-							door.OpeningProgress + timeComponent.DeltaTime * GameConstants.DOOR_OPENING_PROGRESS_SPEED,
-							1f);							
-					}
+					
+					ref var timeComponent = ref _timePool.Get(timeEntity);
+					door.OpeningProgress = Mathf.Min(
+						door.OpeningProgress + timeComponent.DeltaTime * GameConstants.DOOR_OPENING_PROGRESS_SPEED,
+						1f);
 				}	
 			}
 		}

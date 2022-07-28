@@ -26,21 +26,23 @@ namespace Game.Systems
 
 		public void Run(IEcsSystems systems)
 		{
-			foreach (var timeEntity in _timeFilter)
+			if (!_timeFilter.GetSingleEntity(out var timeEntity))
 			{
-				ref var timeComponent = ref _timePool.Get(timeEntity);
-				foreach (var entity in _filter)
+				return;
+			}
+
+			ref var timeComponent = ref _timePool.Get(timeEntity);
+			foreach (var entity in _filter)
+			{
+				ref var move = ref _movePool.Get(entity);
+				ref var position = ref _positionPool.Get(entity);
+			
+				position.Position = Vector3.MoveTowards(position.Position, move.TargetPosition, timeComponent.DeltaTime * move.Speed);
+			
+				if (Vector3.SqrMagnitude(position.Position - move.TargetPosition) <=
+				    GameConstants.SQR_DISTANCE_MIN_THRESHOLD)
 				{
-					ref var move = ref _movePool.Get(entity);
-					ref var position = ref _positionPool.Get(entity);
-				
-					position.Position = Vector3.MoveTowards(position.Position, move.TargetPosition, timeComponent.DeltaTime * move.Speed);
-				
-					if (Vector3.SqrMagnitude(position.Position - move.TargetPosition) <=
-					    GameConstants.SQR_DISTANCE_MIN_THRESHOLD)
-					{
-						_movePool.Del(entity);
-					}
+					_movePool.Del(entity);
 				}
 			}
 		}

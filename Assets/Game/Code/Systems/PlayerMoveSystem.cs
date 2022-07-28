@@ -25,16 +25,16 @@ namespace Game.Systems
 
 		public void Run(IEcsSystems systems)
 		{
-			foreach (var moveRequestEntity in _moveRequestFilter)
+			if (!_moveRequestFilter.GetSingleEntity(out var moveRequestEntity)
+			    || !_playerFilter.GetSingleEntity(out var playerEntity))
 			{
-				foreach (var playerEntity in _playerFilter)
-				{
-					ref var moveComponent = ref _movePool.Refresh(playerEntity);
-					ref var moveRequest = ref _requestPool.Get(moveRequestEntity);
-					moveComponent.TargetPosition = moveRequest.TargetPosition;
-					moveComponent.Speed = GameConstants.PLAYER_MOVE_SPEED;
-				}
+				return;
 			}
+
+			ref var moveComponent = ref _movePool.Refresh(playerEntity);
+			ref var moveRequest = ref _requestPool.Get(moveRequestEntity);
+			moveComponent.TargetPosition = moveRequest.TargetPosition;
+			moveComponent.Speed = GameConstants.PLAYER_MOVE_SPEED;
 		}
 	}
 }
