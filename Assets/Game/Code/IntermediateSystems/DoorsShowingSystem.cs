@@ -28,7 +28,7 @@ namespace Game.Systems.IntermediateSystems
 			foreach (var doorCreatedEntity in _doorEntityCreatedEvents)
 			{
 				ref var eventComponent = ref _eventsPool.Get(doorCreatedEntity);
-				_sceneDoorsService.AssignDoorViewToEntity(eventComponent.DoorId, eventComponent.Entity);
+				_sceneDoorsService.AssignDoorViewToEntity(eventComponent.DoorConfigId, eventComponent.Entity);
 			}
 		}
 	}

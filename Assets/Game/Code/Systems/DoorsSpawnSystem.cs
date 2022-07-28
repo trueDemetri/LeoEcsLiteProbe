@@ -27,9 +27,8 @@ namespace Game.Systems
 				var doorEntity = world.NewEntity();
 				ref var door = ref doorsPool.Add(doorEntity);
 				door.ActivatorPosition = doorData.ActivatorPosition;
-				door.Id = doorData.Id;
 				
-				_messenger.RaiseEvent(new DoorEntityCreatedEvent(){Entity = doorEntity, DoorId = door.Id});
+				_messenger.RaiseEvent(new DoorEntityCreatedEvent(){Entity = doorEntity, DoorConfigId = doorData.ConfigId});
 			}
 		}
 	}

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Game.Core;
-using Game.Services;
 using Game.Systems;
 using Game.Systems.IntermediateSystems;
 using Game.Unity;
@@ -40,6 +39,7 @@ namespace Game.Zenject
 		
 		private void InstallEcsSystems()
 		{
+			Container.BindEcsSystem<TimeSystem>();
 			Container.BindEcsSystem<PlayerSpawnSystem>();
 			Container.BindEcsSystem<DoorsSpawnSystem>();
 			Container.BindEcsSystem<PlayerPointAndClickSystem>();
@@ -60,7 +60,6 @@ namespace Game.Zenject
 
 		private void IntegrateEcsToUnity()
 		{
-			Container.Bind<ITimeService>().To<UnityTimeService>().AsSingle();
 			Container.BindInterfacesTo<EcsMotor>().AsSingle().NonLazy();
 		}
 

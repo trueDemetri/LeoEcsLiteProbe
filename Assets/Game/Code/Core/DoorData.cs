@@ -4,12 +4,12 @@ namespace Game.Core
 {
 	public class DoorData
 	{
-		public readonly string Id;
+		public readonly string ConfigId;
 		public Vector3 ActivatorPosition;
 
-		public DoorData(string id, Vector3 activatorPosition)
+		public DoorData(string configId, Vector3 activatorPosition)
 		{
-			Id = id;
+			ConfigId = configId;
 			ActivatorPosition = activatorPosition;
 		}
 	}

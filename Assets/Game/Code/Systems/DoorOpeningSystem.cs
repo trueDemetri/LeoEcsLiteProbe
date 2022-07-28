@@ -1,6 +1,5 @@
 ﻿using Game.Components;
 using Game.Core;
-using Game.Services;
 using Leopotam.EcsLite;
 using UnityEngine;
 // ReSharper disable NotAccessedVariable
@@ -9,20 +8,15 @@ namespace Game.Systems
 {
 	public class DoorOpeningSystem : IEcsInitSystem, IEcsRunSystem
 	{
-		private readonly ITimeService _timeService;
-		
 		private EcsWorld _world;
 		private EcsFilter _buttonEntities;
 		private EcsFilter _playerEntities;
 		private EcsPool<PositionComponent> _positionPool;
 		private EcsPool<DoorComponent> _doorsPool;
+		private EcsPool<TimeComponent> _timePool;
+		private EcsFilter _timeFilter;
 
 		private float _sqrButtonRadius;
-
-		public DoorOpeningSystem(ITimeService timeService)
-		{
-			_timeService = timeService;
-		}
 
 		public void Init(IEcsSystems systems)
 		{
@@ -30,6 +24,8 @@ namespace Game.Systems
 			
 			_buttonEntities = _world.Filter<DoorComponent>().End();
 			_playerEntities = _world.Filter<PlayerComponent>().Inc<PositionComponent>().End();
+			_timeFilter = _world.Filter<TimeComponent>().End();
+			_timePool = _world.GetPool<TimeComponent>();
 
 			_positionPool = _world.GetPool<PositionComponent>();
 			_doorsPool = _world.GetPool<DoorComponent>();
@@ -50,9 +46,14 @@ namespace Game.Systems
 					{
 						continue;
 					}
-					door.OpeningProgress = Mathf.Min(
-						door.OpeningProgress + _timeService.DeltaTime * GameConstants.DOOR_OPENING_PROGRESS_SPEED,
-						1f);	
+
+					foreach (var timeEntity in _timeFilter)
+					{
+						ref var timeComponent = ref _timePool.Get(timeEntity);
+						door.OpeningProgress = Mathf.Min(
+							door.OpeningProgress + timeComponent.DeltaTime * GameConstants.DOOR_OPENING_PROGRESS_SPEED,
+							1f);							
+					}
 				}	
 			}
 		}

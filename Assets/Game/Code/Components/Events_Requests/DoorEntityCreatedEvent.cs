@@ -2,7 +2,7 @@
 {
 	public struct DoorEntityCreatedEvent
 	{
-		public string DoorId;
+		public string DoorConfigId;
 		public int Entity;
 	}
 }
